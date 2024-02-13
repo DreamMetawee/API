@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+    <title>Hello, world!</title>
+<style>
+  a {
+      color: #007BFF; /* สีของลิงก์ */
+      text-decoration: none; /* ลบเส้นใต้ */
+      font-size: 18px; /* ขนาดของตัวอักษร */
+      font-weight: bold; /* ทำให้ตัวอักษรหนา */
+      transition: color 0.3s ease-in-out; /* เพิ่มเอฟเฟกต์การเปลี่ยนสีอย่างราบรื่น */
+  }
+  
+  /* สไตล์เมื่อเมาส์อยู่เหนือลิงก์ */
+  a:hover {
+      color: #0056b3; /* เปลี่ยนสีเมื่อเมาส์อยู่เหนือลิงก์ */
+      text-decoration: underline; /* เพิ่มเส้นใต้เมื่อเมาส์อยู่เหนือลิงก์ */
+  }
+</style>
+    
+  </head>
+  <body>
+    <button><a href="index.html">back</a></button>
+    <div class="container">
+        <h1 id="dogtype">...</h1>
+        <img id="img_file" class="img-fluid" alt="...">
+        <p id="details1">...</p>
+        <p id="details2">...</p>
+        <p id="details3">...</p>
+        <p id="details4">...</p>
+        </div>
+        
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+
+
+  </body>
+</html>
+
+<script>
+    
+    const url_param = new URLSearchParams(window.location.search);
+    const id = url_param.get('id');
+    var requestOptions = {
+        method: 'GET',
+        redirect: 'follow'
+      };
+      
+      fetch("http://localhost/Webprogramming_IT_66/Dog_database/API/attraction/read_one.php?id=" + id, requestOptions)
+        .then(response => response.text())
+        .then(result => {
+            console.log(result);
+            var jsonObj = JSON.parse(result);
+            document.getElementById('dogtype').innerText = jsonObj.dogtype;
+            document.getElementById('img_file').setAttribute('src',jsonObj.img_file);
+            document.getElementById('img_file').setAttribute('alt',jsonObj.img_file);
+            document.getElementById('details1').innerText = jsonObj.details1;
+            document.getElementById('details2').innerText = jsonObj.details2;
+            document.getElementById('details3').innerText = jsonObj.details3;
+            document.getElementById('details4').innerText = jsonObj.details4;
+
+        })
+        .catch(error => console.log('error', error));
+</script>

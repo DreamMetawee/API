@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+    <title>Hello, world!</title>
+    <style>
+      /* ปรับขนาดรูปภาพในการ์ดให้เต็มพื้นที่และไม่แตก */
+      .card-img-top {
+          width: 100%; /* ให้รูปภาพเต็มความกว้างของการ์ด */
+          height: 15vw; /* กำหนดความสูงของรูปภาพ สามารถปรับเปลี่ยนตามต้องการ */
+          object-fit: cover; /* ทำให้รูปภาพครอบคลุมพื้นที่โดยไม่เสียสัดส่วน */
+      }
+      
+      /* ปรับสไตล์ของตัวการ์ดเพื่อให้ดูมีพื้นที่มากขึ้น */
+      .card {
+          box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* เพิ่มเงาให้กับการ์ด */
+          margin-bottom: 20px; /* กำหนดระยะห่างระหว่างการ์ด */
+      }
+      
+      .card-body {
+          display: flex; /* ใช้ flexbox ในการจัดการ์ด */
+          flex-direction: column; /* จัดเนื้อหาในการ์ดในแนวตั้ง */
+          justify-content: space-between; /* กระจายเนื้อหาในการ์ดให้มีพื้นที่สม่ำเสมอ */
+      }
+      
+      .card-title {
+          font-size: 1.25rem; /* ปรับขนาดตัวอักษรของหัวข้อ */
+          margin-bottom: 0.75rem; /* กำหนดระยะห่างจากหัวข้อไปยังเนื้อหา */
+      }
+      
+      .card-text {
+          flex-grow: 1; /* ให้ข้อความยืดหยุ่นในการจัดพื้นที่ */
+          margin-bottom: 1.25rem; /* กำหนดระยะห่างจากข้อความไปยังปุ่ม */
+      }
+      </style>
+      
+  </head>
+  <body>
+    
+
+    <div class="container">
+        <h1>Hello, world!</h1>
+        <div id="cards" class="row">
+            <div class="col-12 col-lg-4 mt-2">
+                <div class="card">
+                    <img src="..." class="card-img-top" alt="...">
+                    <div class="card-body">
+                      <h5 class="card-title">Card title</h5>
+                      <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                      <a href="#" class="btn btn-primary">Go somewhere</a>
+                    </div>
+                  </div>
+            </div>
+            <div class="col-12 col-lg-4 mt-2">
+                <div class="card">
+                    <img src="..." class="card-img-top" alt="...">
+                    <div class="card-body">
+                      <h5 class="card-title">Card title</h5>
+                      <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                      <a href="#" class="btn btn-primary">Go somewhere</a>
+                    </div>
+                  </div>
+            </div>
+            <div class="col-12 col-lg-4 mt-2">
+                <div class="card">
+                    <img src="..." class="card-img-top" alt="...">
+                    <div class="card-body">
+                      <h5 class="card-title">Card title</h5>
+                      <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                      <a href="#" class="btn btn-primary">Go somewhere</a>
+                    </div>
+                  </div>
+            </div>
+          </div>
+      </div>
+   
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+
+  </body>
+</html>
+
+<script>
+    var cards = document.getElementById('cards');
+    cards.innerHTML = 'loading...';
+    var requestOptions = {
+        method: 'GET',
+        redirect: 'follow'
+      };
+      
+      fetch("http://localhost/Webprogramming_IT_66/Dog_database/API/attraction/read.php?", requestOptions)
+        .then(response => response.text())
+        .then(result =>
+        {
+            cards.innerHTML = '';
+            var jsonObj = JSON.parse(result);
+            for (let dog of jsonObj){
+                const card =
+                `
+                <div class="col-12 col-lg-4 mt-2">
+                    <div class="card">
+                        <img src=`+dog.img_file+` class="card-img-top" alt="...">
+                        <div class="card-body">
+                          <h5 class="card-title">`+dog.dogtype+`</h5>
+                          <p class="card-text text-truncate">`+dog.details1+`</p>
+                          <a href="attraction.html?id=`+dog.id+`" class="btn btn-primary">See more</a>
+                        </div>
+                      </div>
+                </div>
+                `
+                ;
+                cards.insertAdjacentHTML('beforeend',card);
+
+            }
+        }
+        )
+        .catch(error => console.log('error', error));
+</script>
